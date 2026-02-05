@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>¿Querés ser mi San Valentín?</title>
+  <title>Will you be my Valentine?</title>
 
-  <!-- Confetti -->
+  <!-- Confetti library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <style>
@@ -30,6 +30,7 @@
       padding: 16px;
     }
 
+    /* FULL-SCREEN CONFETTI CANVAS */
     #confettiCanvas {
       position: fixed;
       inset: 0;
@@ -81,6 +82,7 @@
       cursor: pointer;
       box-shadow: 0 10px 24px rgba(0,0,0,.14);
       user-select: none;
+      -webkit-tap-highlight-color: transparent;
       transition: transform .12s ease, background .12s ease;
     }
 
@@ -89,10 +91,7 @@
       background: var(--yes);
       color: #fff;
     }
-
-    #yesBtn:hover {
-      background: var(--yesHover);
-    }
+    #yesBtn:hover { background: var(--yesHover); }
 
     #noBtn {
       left: 62%;
@@ -102,8 +101,8 @@
 
     .hint {
       margin-top: 10px;
-      font-size: 14px;
-      opacity: .75;
+      font-size: 13px;
+      opacity: .7;
     }
 
     .result {
@@ -115,7 +114,6 @@
     .result h2 {
       font-size: clamp(30px, 4.5vw, 46px);
       margin: 10px 0;
-      color: #ff3b7a;
     }
 
     .fireworks {
@@ -132,174 +130,175 @@
 </head>
 
 <body>
+  <canvas id="confettiCanvas"></canvas>
 
-<canvas id="confettiCanvas"></canvas>
+  <main class="card">
+    <!-- ANIMAL WITH HEART -->
+    <svg class="art" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fur" x1="0" x2="1">
+          <stop offset="0" stop-color="#f7c7a1"/>
+          <stop offset="1" stop-color="#f2a97b"/>
+        </linearGradient>
+        <linearGradient id="heart" x1="0" x2="1">
+          <stop offset="0" stop-color="#ff4d7d"/>
+          <stop offset="1" stop-color="#ff1f68"/>
+        </linearGradient>
+      </defs>
 
-<main class="card">
+      <path d="M250 50 C250 33 270 25 282 38
+               C294 25 314 33 314 50
+               C314 78 282 92 282 106
+               C282 92 250 78 250 50Z"
+            fill="url(#heart)"/>
 
-  <!-- Animalito -->
-  <svg class="art" viewBox="0 0 320 240">
-    <defs>
-      <linearGradient id="fur" x1="0" x2="1">
-        <stop offset="0" stop-color="#f7c7a1"/>
-        <stop offset="1" stop-color="#f2a97b"/>
-      </linearGradient>
-      <linearGradient id="heart" x1="0" x2="1">
-        <stop offset="0" stop-color="#ff4d7d"/>
-        <stop offset="1" stop-color="#ff1f68"/>
-      </linearGradient>
-    </defs>
+      <path d="M90 120 C90 70 140 40 190 60
+               C240 40 290 70 290 120
+               C290 180 240 210 190 210
+               C140 210 90 180 90 120Z"
+            fill="url(#fur)"/>
 
-    <path d="M250 50 C250 33 270 25 282 38
-             C294 25 314 33 314 50
-             C314 78 282 92 282 106
-             C282 92 250 78 250 50Z"
-          fill="url(#heart)"/>
+      <path d="M110 92 L95 55 L140 78 Z" fill="#f2a97b"/>
+      <path d="M270 92 L285 55 L240 78 Z" fill="#f2a97b"/>
 
-    <path d="M90 120 C90 70 140 40 190 60
-             C240 40 290 70 290 120
-             C290 180 240 210 190 210
-             C140 210 90 180 90 120Z"
-          fill="url(#fur)"/>
+      <circle cx="160" cy="130" r="8"/>
+      <circle cx="220" cy="130" r="8"/>
 
-    <circle cx="160" cy="130" r="8"/>
-    <circle cx="220" cy="130" r="8"/>
-  </svg>
+      <path d="M190 144 C186 144 182 148 182 152
+               C182 160 190 164 190 170
+               C190 164 198 160 198 152
+               C198 148 194 144 190 144Z"
+            fill="#ff7aa2"/>
+    </svg>
 
-  <h1>Valentina, ¿querés ser mi San Valentín? 💖</h1>
+    <h1>Valu, serias mi San Valentin?</h1>
 
-  <section class="button-zone" id="zone">
+    <section class="button-zone" id="zone">
+      <button id="yesBtn">Si❤️</button>
+      <button id="noBtn">No👎</button>
+    </section>
 
-    <button id="yesBtn">Sí 💘</button>
+    <!-- HINT -->
+    <div class="hint" id="hint">El “No” parece que tiene miedo, jaajsjas 😈</div>
 
-    <button id="noBtn">No 😢</button>
+    <section class="result" id="result">
+      <h2>YEY! 🎉</h2>
+      <img
+        class="fireworks"
+        src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"
+        alt="Fireworks"
+      />
+    </section>
+  </main>
 
-  </section>
+  <script>
+    const zone = document.getElementById("zone");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const result = document.getElementById("result");
+    const hint = document.getElementById("hint");
 
-  <div class="hint" id="hint">
-    Parece que el "No" tiene miedo... 🤭
-  </div>
+    /* ---------- CONFETTI ---------- */
+    const confettiCanvas = document.getElementById("confettiCanvas");
 
-  <section class="result" id="result">
+    function resizeConfettiCanvas() {
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      confettiCanvas.width = Math.floor(window.innerWidth * dpr);
+      confettiCanvas.height = Math.floor(window.innerHeight * dpr);
+      confettiCanvas.style.width = "100vw";
+      confettiCanvas.style.height = "100vh";
+    }
 
-    <h2>Sabía que ibas a decir que sí ❤️</h2>
+    resizeConfettiCanvas();
+    window.addEventListener("resize", resizeConfettiCanvas);
+    window.addEventListener("orientationchange", () => setTimeout(resizeConfettiCanvas, 150));
 
-    <img
-      class="fireworks"
-      src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif">
-
-  </section>
-
-</main>
-
-<script>
-
-const zone = document.getElementById("zone");
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const result = document.getElementById("result");
-const hint = document.getElementById("hint");
-
-const confettiCanvas = document.getElementById("confettiCanvas");
-
-function resizeCanvas(){
-  const dpr = window.devicePixelRatio || 1;
-  confettiCanvas.width = innerWidth * dpr;
-  confettiCanvas.height = innerHeight * dpr;
-}
-
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-
-const confettiInstance = confetti.create(confettiCanvas, {
-  resize: true,
-  useWorker: true
-});
-
-function lanzarConfetti(){
-
-  const end = Date.now() + 1800;
-
-  (function frame(){
-
-    confettiInstance({
-      particleCount: 12,
-      spread: 90,
-      origin: {x: Math.random(), y: Math.random()*0.4}
+    const confettiInstance = confetti.create(confettiCanvas, {
+      resize: false,
+      useWorker: true
     });
 
-    if(Date.now() < end) requestAnimationFrame(frame);
+    function fullScreenConfetti() {
+      const end = Date.now() + 1600;
 
-  })();
+      (function frame() {
+        confettiInstance({
+          particleCount: 12,
+          spread: 90,
+          startVelocity: 45,
+          ticks: 180,
+          origin: { x: Math.random(), y: Math.random() * 0.3 }
+        });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
 
-}
+      setTimeout(() => {
+        confettiInstance({
+          particleCount: 300,
+          spread: 140,
+          startVelocity: 60,
+          ticks: 220,
+          origin: { x: 0.5, y: 0.55 }
+        });
+      }, 300);
+    }
 
-let escala = 1;
+    /* ---------- YES BUTTON GROWS ---------- */
+    let yesScale = 1;
+    function growYes() {
+      yesScale = Math.min(2.2, yesScale + 0.1);
+      yesBtn.style.transform = `translateY(-50%) scale(${yesScale})`;
+    }
 
-function agrandarSi(){
+    /* ---------- NO BUTTON RUNS AWAY ---------- */
+    function clamp(n, min, max) {
+      return Math.max(min, Math.min(max, n));
+    }
 
-  escala += 0.1;
+    function moveNo(px, py) {
+      const z = zone.getBoundingClientRect();
+      const b = noBtn.getBoundingClientRect();
 
-  yesBtn.style.transform =
-    `translateY(-50%) scale(${escala})`;
+      let dx = (b.left + b.width / 2) - px;
+      let dy = (b.top + b.height / 2) - py;
+      let mag = Math.hypot(dx, dy) || 1;
+      dx /= mag;
+      dy /= mag;
 
-}
+      let newLeft = (b.left - z.left) + dx * 150;
+      let newTop  = (b.top - z.top) + dy * 150;
 
-function clamp(n,min,max){
-  return Math.max(min,Math.min(max,n));
-}
+      newLeft = clamp(newLeft, 0, z.width - b.width);
+      newTop  = clamp(newTop, 0, z.height - b.height);
 
-function moverNo(x,y){
+      noBtn.style.left = newLeft + "px";
+      noBtn.style.top = newTop + "px";
+      noBtn.style.transform = "none";
 
-  const z = zone.getBoundingClientRect();
-  const b = noBtn.getBoundingClientRect();
+      growYes();
+    }
 
-  let dx = (b.left+b.width/2)-x;
-  let dy = (b.top+b.height/2)-y;
+    zone.addEventListener("pointermove", e => {
+      const b = noBtn.getBoundingClientRect();
+      const d = Math.hypot(
+        (b.left + b.width / 2) - e.clientX,
+        (b.top + b.height / 2) - e.clientY
+      );
+      if (d < 140) moveNo(e.clientX, e.clientY);
+    });
 
-  let mag = Math.hypot(dx,dy)||1;
+    noBtn.addEventListener("click", e => e.preventDefault());
 
-  dx/=mag;
-  dy/=mag;
-
-  let left = (b.left-z.left)+dx*150;
-  let top  = (b.top-z.top)+dy*150;
-
-  left = clamp(left,0,z.width-b.width);
-  top  = clamp(top,0,z.height-b.height);
-
-  noBtn.style.left = left+"px";
-  noBtn.style.top  = top+"px";
-  noBtn.style.transform = "none";
-
-  agrandarSi();
-
-}
-
-zone.addEventListener("pointermove", e=>{
-
-  const b = noBtn.getBoundingClientRect();
-
-  const d = Math.hypot(
-    (b.left+b.width/2)-e.clientX,
-    (b.top+b.height/2)-e.clientY
-  );
-
-  if(d<140) moverNo(e.clientX,e.clientY);
-
-});
-
-yesBtn.addEventListener("click", ()=>{
-
-  zone.style.display="none";
-  hint.style.display="none";
-  result.style.display="block";
-
-  lanzarConfetti();
-
-});
-
-</script>
-
+    /* ---------- YES CLICK ---------- */
+    yesBtn.addEventListener("click", () => {
+      zone.style.display = "none";
+      hint.style.display = "none";     // HIDE THE HINT
+      result.style.display = "block";
+      resizeConfettiCanvas();
+      fullScreenConfetti();
+    });
+  </script>
 </body>
 </html>
+
+
